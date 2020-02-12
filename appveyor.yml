@@ -1,0 +1,33 @@
+version: '{build}'
+
+pull_requests:
+  do_not_increment_build_number: true
+
+skip_tags: true
+
+image:
+#- Ubuntu
+- Visual Studio 2019
+
+configuration:
+#- Release
+- Debug
+
+platform:
+- x64
+
+for:
+-
+  matrix:
+    only:
+      - image: Visual Studio 2019
+  build:
+    project: GPCS4.sln
+    parallel: true
+    verbosity: minimal
+  after_build:
+    - 7z a Debug.7z .\Debug\*
+  artifacts:
+    - path: Debug.zip
+
+test: off
