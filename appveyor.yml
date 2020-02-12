@@ -21,6 +21,10 @@ for:
   matrix:
     only:
       - image: Visual Studio 2019
+  install:
+    - |
+      curl -fsS -o llvm.vsix https://llvmextensions.gallerycdn.vsassets.io/extensions/llvmextensions/llvm-toolchain/1.0.363769/1560930595399/llvm.vsix
+      "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\VSIXInstaller.exe" /q /a llvm.vsix
   build:
     project: GPCS4.sln
     parallel: true
