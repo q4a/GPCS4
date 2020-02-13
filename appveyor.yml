@@ -28,10 +28,16 @@ for:
       echo sha256 should be 7434a39620e425330e3822effbdbefa41ce6e342cd8c610a3c49dc7375f0649d
       %USERPROFILE%\vulkan-sdk.exe /S
       dir C:\VulkanSDK
-  build_script:
-    - |
-      dir
- 
+      set PATH=C:\VulkanSDK\1.2.131.2\Bin;%PATH%
+  build:
+    project: GPCS4.sln
+    parallel: true
+    verbosity: minimal
+  after_build:
+    - 7z a Debug.7z .\Debug\*
+  artifacts:
+    - path: Debug.zip
+
 -
   matrix:
     only:
