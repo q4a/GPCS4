@@ -23,8 +23,9 @@ for:
       - image: Visual Studio 2017
   install:
     - |
-      curl -L --silent --show-error -o vulkan-sdk.exe https://vulkan.lunarg.com/sdk/download/1.2.131.2/windows/VulkanSDK-1.2.131.2-Installer.exe?Human=true
-      vulkan-sdk.exe /S
+      if not exist %USERPROFILE%\vulkan-sdk.exe curl -L --silent --show-error -o %USERPROFILE%\vulkan-sdk.exe https://vulkan.lunarg.com/sdk/download/1.2.131.2/windows/VulkanSDK-1.2.131.2-Installer.exe?Human=true
+      CertUtil -hashfile %USERPROFILE%\vulkan-sdk.exe md5
+      %USERPROFILE%\vulkan-sdk.exe /S
       dir C:\VulkanSDK
   build:
     project: GPCS4.sln
@@ -45,3 +46,6 @@ for:
       echo "Will add build_script later"
 
 test: off
+
+cache:
+  - '%USERPROFILE%\vulkan-sdk.exe
