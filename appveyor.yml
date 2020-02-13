@@ -48,4 +48,4 @@ for:
 test: off
 
 cache:
-  - '%USERPROFILE%\vulkan-sdk.exe
+  - '%USERPROFILE%\vulkan-sdk.exe'
