@@ -6,7 +6,7 @@ pull_requests:
 skip_tags: true
 
 image:
-- Visual Studio 2019
+- Visual Studio 2017
 - Ubuntu
 
 configuration:
@@ -20,10 +20,10 @@ for:
 -
   matrix:
     only:
-      - image: Visual Studio 2019
+      - image: Visual Studio 2017
   install:
     - |
-      curl -fsS -o vulkan-sdk.exe https://vulkan.lunarg.com/sdk/home#sdk/downloadConfirm/latest/windows/vulkan-sdk.exe
+      curl -L --silent --show-error -o vulkan-sdk.exe https://vulkan.lunarg.com/sdk/download/1.2.131.2/windows/VulkanSDK-1.2.131.2-Installer.exe?Human=true
       vulkan-sdk.exe /S
       dir C:\VulkanSDK
   build:
