@@ -6,8 +6,8 @@ pull_requests:
 skip_tags: true
 
 image:
+- Visual Studio 2019
 - Ubuntu
-- Visual Studio 2017
 
 configuration:
 #- Release
@@ -34,5 +34,14 @@ for:
     - 7z a Debug.7z .\Debug\*
   artifacts:
     - path: Debug.zip
+
+-
+  matrix:
+    only:
+      - image: Ubuntu
+  build_script:
+    - |
+      echo `pwd`
+      echo "Will add build_script later"
 
 test: off
