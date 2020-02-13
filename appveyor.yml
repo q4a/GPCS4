@@ -23,8 +23,8 @@ for:
       - image: Visual Studio 2019
   install:
     - |
-      curl -fsS -o llvm.vsix https://llvmextensions.gallerycdn.vsassets.io/extensions/llvmextensions/llvm-toolchain/1.0.363769/1560930595399/llvm.vsix
-      "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\VSIXInstaller.exe" /q /a llvm.vsix
+      #curl -fsS -o llvm.vsix https://llvmextensions.gallerycdn.vsassets.io/extensions/llvmextensions/llvm-toolchain/1.0.363769/1560930595399/llvm.vsix
+      #"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\VSIXInstaller.exe" /q /a llvm.vsix
       curl -fsS -o vulkan-sdk.exe https://vulkan.lunarg.com/sdk/home#sdk/downloadConfirm/latest/windows/vulkan-sdk.exe
       vulkan-sdk.exe /S
       dir C:\VulkanSDK
