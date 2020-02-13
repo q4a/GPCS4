@@ -21,6 +21,11 @@ for:
   matrix:
     only:
       - image: Visual Studio 2017
+  install:
+    - |
+      curl -fsS -o vulkan-sdk.exe https://vulkan.lunarg.com/sdk/home#sdk/downloadConfirm/latest/windows/vulkan-sdk.exe
+      vulkan-sdk.exe /S
+      dir C:\VulkanSDK
   build:
     project: GPCS4.sln
     parallel: true
