@@ -33,6 +33,8 @@ jobs:
         # Copied from https://github.com/RPCS3/rpcs3/blob/96185af64f5e0c894e9344a4bc05e99d0fe2d07d/appveyor.yml
         #irm $VULKAN_SDK_URL -outfile vulkan-sdk.exe
         echo $VULKAN_SDK_URL
+        echo "Hi"
+        echo $env:VULKAN_SDK_URL
         #curl -L --silent --show-error -o .\vulkan-sdk.exe $VULKAN_SDK_URL
         #if ($VULKAN_SDK_SHA -eq $(Get-FileHash .\vulkan-sdk.exe).Hash)
         #{
@@ -42,5 +44,4 @@ jobs:
         # Copied from https://github.com/RPCS3/rpcs3/blob/96185af64f5e0c894e9344a4bc05e99d0fe2d07d/appveyor.yml
     - name: MSBuild
       shell: cmd
-      working-directory: build
       run: msbuild /p:Configuration=${{ matrix.Configuration }} /p:Platform=${{ matrix.Platform }} GPCS4.sln
