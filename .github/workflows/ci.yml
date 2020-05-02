@@ -26,21 +26,25 @@ jobs:
       if: steps.VulkanSDK-cache.outputs.cache-hit != 'true'
       env:
         VULKAN_SDK: C:\VulkanSDK\1.1.121.2
-        VULKAN_SDK_URL: https://sdk.lunarg.com/sdk/download/1.1.121.2/windows/VulkanSDK-1.1.121.2-Installer.exe?Human=true
+        VULKAN_SDK_URL: https://sdk.lunarg.com/sdk/download/1.1.121.2/windows/VulkanSDK-1.1.121.2-Installer.exe
         VULKAN_SDK_SHA: fbe6cb0cc1bad566a4d828fb894baea3bce2cc77c292d5ed087591ff9f9c4e98
       shell: powershell
       run: |
         # Copied from https://github.com/RPCS3/rpcs3/blob/96185af64f5e0c894e9344a4bc05e99d0fe2d07d/appveyor.yml
-        #irm $VULKAN_SDK_URL -outfile vulkan-sdk.exe
-        echo $VULKAN_SDK_URL
-        echo "Hi"
-        echo $env:VULKAN_SDK_URL
-        #curl -L --silent --show-error -o .\vulkan-sdk.exe $VULKAN_SDK_URL
-        #if ($VULKAN_SDK_SHA -eq $(Get-FileHash .\vulkan-sdk.exe).Hash)
-        #{
-        #    echo "Successfully downloaded and verified vulkan-sdk.exe!"
-        #}
-        #.\vulkan-sdk.exe /S
+        $VULKAN_SDK_URLS = @(
+            $env:VULKAN_SDK_URL;
+            "$($env:VULKAN_SDK_URL)?Human=true";
+        )
+        foreach ($url in $VULKAN_SDK_URLS) {
+            irm $url -outfile vulkan-sdk.exe
+            if ($env:VULKAN_SDK_SHA -eq $(Get-FileHash .\vulkan-sdk.exe).Hash) {
+                echo "Successfully downloaded and verified vulkan-sdk.exe!"
+                break
+            } else {
+                echo "Invalid file hash, Vulkan SDK Setup was possibly tampered with, retrying with a different mirror..."
+            }
+        }
+        .\vulkan-sdk.exe /S
         # Copied from https://github.com/RPCS3/rpcs3/blob/96185af64f5e0c894e9344a4bc05e99d0fe2d07d/appveyor.yml
     - name: MSBuild
       shell: cmd
