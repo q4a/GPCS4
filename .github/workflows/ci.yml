@@ -29,8 +29,8 @@ jobs:
         VULKAN_SDK_URL: https://sdk.lunarg.com/sdk/download/1.1.121.2/windows/VulkanSDK-1.1.121.2-Installer.exe
         VULKAN_SDK_SHA: fbe6cb0cc1bad566a4d828fb894baea3bce2cc77c292d5ed087591ff9f9c4e98
       shell: ps
+      # Copied from https://github.com/RPCS3/rpcs3/blob/96185af64f5e0c894e9344a4bc05e99d0fe2d07d/appveyor.yml
       run: |
-        # Copied from https://github.com/RPCS3/rpcs3/blob/96185af64f5e0c894e9344a4bc05e99d0fe2d07d/appveyor.yml
         $VULKAN_SDK_URLS = @(
             $VULKAN_SDK_URL;
             "$($VULKAN_SDK_URL)?Human=true";
@@ -48,7 +48,6 @@ jobs:
             }
         }
         .\vulkan-sdk.exe /S
-        # Copied from https://github.com/RPCS3/rpcs3/blob/96185af64f5e0c894e9344a4bc05e99d0fe2d07d/appveyor.yml
     - name: MSBuild
       shell: cmd
       working-directory: build
