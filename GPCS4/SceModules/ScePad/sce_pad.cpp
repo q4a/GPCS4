@@ -1,5 +1,4 @@
 #include "sce_pad.h"
-#include "MapSlot.h"
 #include "ScePad.h"
 
 // Note:
@@ -7,6 +6,8 @@
 // You may need to modify the code manually to fit development needs
 
 LOG_CHANNEL(SceModules.ScePad);
+
+#include "MapSlot.h"
 
 //////////////////////////////////////////////////////////////////////////
 // library: libScePad

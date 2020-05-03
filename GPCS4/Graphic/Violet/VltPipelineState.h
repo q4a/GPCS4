@@ -8,6 +8,7 @@
 
 #include <array>
 #include <iostream>
+#include <cstring>
 
 namespace vlt
 {

@@ -1,9 +1,10 @@
 //#include "sce_libkernel.h"
-#include "sce_pthread_common.h"
 //#include "pthreads4w/pthread.h"
-#include "MapSlot.h"
+#include "GPCS4Common.h"
 
 LOG_CHANNEL(SceModules.SceLibkernel.pthread);
+
+#include "sce_pthread_common.h"
 
 int sceMutexAttrTypeToPthreadType(int type);
 

@@ -47,9 +47,11 @@ void initSpdLog()
 	console_sink->set_level(spdlog::level::trace);  // message generating filter
 	console_sink->set_pattern("[%t][%^%l%$]%v");
 
+#ifdef GPCS4_WINDOWS
 	auto msvc_sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
 	msvc_sink->set_level(spdlog::level::trace);  // message generating filter
 	msvc_sink->set_pattern("[%t][%^%l%$]%v");
+#endif  //GPCS4_WINDOWS
 
 	auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("GPCS4.log", true);
 	file_sink->set_level(spdlog::level::trace);
@@ -57,7 +59,11 @@ void initSpdLog()
 
 	//g_logger.reset(new spdlog::logger("GPCS4", { console_sink }));
 	//g_logger.reset(new spdlog::logger("GPCS4", { msvc_sink, file_sink, console_sink }));
+#ifdef GPCS4_WINDOWS
 	g_logger.reset(new spdlog::logger("GPCS4", { msvc_sink }));
+#else
+	g_logger.reset(new spdlog::logger("GPCS4", { console_sink, file_sink }));
+#endif  //GPCS4_WINDOWS
 	g_logger->set_level(spdlog::level::trace);  // message showing filter
 
 	//g_logger->flush_on(spdlog::level::trace); // I/O cost

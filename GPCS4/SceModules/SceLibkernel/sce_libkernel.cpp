@@ -1,5 +1,9 @@
 #include "sce_libkernel.h"
+#ifdef GPCS4_WINDOWS
 #include "pthreads4w/pthread.h"
+#else
+#include "pthread.h"
+#endif  //GPCS4_WINDOWS
 #include "Platform/PlatformUtils.h"
 #include "Emulator/SceModuleSystem.h"
 // Note:
@@ -209,7 +213,11 @@ int PS4API scek___sys_regmgr_call()
 int PS4API scePthreadAttrGet(ScePthread thread, ScePthreadAttr* attr)
 {
 	LOG_SCE_DUMMY_IMPL();
+#ifdef GPCS4_WINDOWS
 	*attr = nullptr;
+#else
+	*attr = {};
+#endif  //GPCS4_WINDOWS
 	return SCE_OK;
 }
 

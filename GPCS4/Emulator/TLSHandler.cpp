@@ -1,6 +1,7 @@
 #include "TLSHandler.h"
 #include "Platform/UtilMemory.h"
 #include "Util/UtilMath.h"
+#include <cstring>
 // x86_64 max instruction length
 #define X64_INSTRUCTION_LEN_MAX 15
 

@@ -17,6 +17,7 @@
 #include "../Violet/VltShader.h"
 
 #include <algorithm>
+#include <climits>
 
 LOG_CHANNEL(Graphic.Gnm.GnmCommandBufferDraw);
 

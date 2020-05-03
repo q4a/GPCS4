@@ -1,6 +1,7 @@
 #include "sce_gnmdriver.h"
 #include "Graphic/Gnm/GnmOpCode.h"
 #include <cassert>
+#include <cstring>
 
 LOG_CHANNEL(SceModules.SceGnmDriver.GnmDispatch);
 

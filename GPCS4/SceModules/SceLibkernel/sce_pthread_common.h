@@ -1,6 +1,10 @@
 #pragma once
 #include "sce_libkernel.h"
+#ifdef GPCS4_WINDOWS
 #include "pthreads4w/pthread.h"
+#else
+#include "pthread.h"
+#endif  //GPCS4_WINDOWS
 #include "MapSlot.h"
 
 struct SCE_THREAD_PARAM

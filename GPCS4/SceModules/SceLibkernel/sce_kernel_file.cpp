@@ -1,18 +1,17 @@
 #include "sce_libkernel.h"
 #include "sce_kernel_file.h"
-#include "MapSlot.h"
 #include "Platform/UtilPath.h"
+#ifdef GPCS4_WINDOWS
 #include <io.h>
+#else
+#include <unistd.h>
+#endif  //GPCS4_WINDOWS
 #include <fcntl.h>
 #include <cstdio>
 
 LOG_CHANNEL(SceModules.SceLibkernel.file);
 
-// this will be more friendly on linux....
-
-#ifdef GPCS4_WINDOWS
-
-#include "dirent/dirent.h"
+#include "MapSlot.h"
 
 enum FdType
 {
@@ -41,6 +40,12 @@ bool isEmptyFdItem(const FdItem& item)
 // we record both DIR* and fd in this slot array
 MapSlot<FdItem, isEmptyFdItem, isEqualFdItem> g_fdSlots(SCE_FD_MAX);
 
+
+// this will be more friendly on linux....
+
+#ifdef GPCS4_WINDOWS
+
+#include "dirent/dirent.h"
 
 inline bool getDirName(DIR* dir, char* dirname, int len)
 {
@@ -76,7 +81,11 @@ int PS4API scek__write(int fd, const void* buf, size_t size)
 
 	do 
 	{
+#ifdef GPCS4_WINDOWS
 		_write(fd, buf, size);
+#else
+		write(fd, buf, size);
+#endif  //GPCS4_WINDOWS
 
 		if (fd != 1 && fd != 2)
 		{
@@ -159,7 +168,11 @@ ssize_t PS4API sceKernelRead(int d, void *buf, size_t nbytes)
 {
 	LOG_SCE_TRACE("d %d buff %p nbytes %x", d, buf, nbytes);
 	int fd = g_fdSlots[d].fd;
+#ifdef GPCS4_WINDOWS
 	return _read(fd, buf, nbytes);
+#else
+	return read(fd, buf, nbytes);
+#endif  //GPCS4_WINDOWS
 }
 
 
@@ -174,7 +187,11 @@ sce_off_t PS4API sceKernelLseek(int fildes, sce_off_t offset, int whence)
 {
 	LOG_SCE_TRACE("fd %d off %d where %d", fildes, offset, whence);
 	int fd = g_fdSlots[fildes].fd;
+#ifdef GPCS4_WINDOWS
 	return _lseeki64(fd, offset, whence);
+#else
+	return lseek64(fd, offset, whence);
+#endif  //GPCS4_WINDOWS
 }
 
 
@@ -205,6 +222,7 @@ int PS4API sceKernelClose(int d)
 inline sce_mode_t getSceFileMode(uint16_t oldMode)
 {
 	sce_mode_t sceMode = 0;
+#ifdef GPCS4_WINDOWS
 	if (oldMode & _S_IREAD)
 	{
 		sceMode = SCE_KERNEL_S_IRU;
@@ -223,6 +241,7 @@ inline sce_mode_t getSceFileMode(uint16_t oldMode)
 	{
 		sceMode |= SCE_KERNEL_S_IFDIR;
 	}
+#endif  //GPCS4_WINDOWS
 	return sceMode;
 }
 
@@ -231,6 +250,7 @@ int PS4API scek_fstat(int fd, SceKernelStat *sb)
 {
 	LOG_SCE_TRACE("fd %d sb %p", fd, sb);
 
+#ifdef GPCS4_WINDOWS
 	struct stat stat;
 	int ret = fstat(fd, &stat);
 	sb->st_mode = getSceFileMode(stat.st_mode);
@@ -247,6 +267,7 @@ int PS4API scek_fstat(int fd, SceKernelStat *sb)
 		sb->st_blksize = SSD_BLOCK_SIZE;
 	}
 	return ret;
+#endif  //GPCS4_WINDOWS
 }
 
 
@@ -255,6 +276,7 @@ int PS4API sceKernelStat(const char *path, SceKernelStat *sb)
 	LOG_SCE_TRACE("path %s sb %p", path, sb);
 	std::string pcPath = UtilPath::PS4PathToPCPath(path);
 
+#ifdef GPCS4_WINDOWS
 	struct _stat stat;
 	int ret = _stat(pcPath.c_str(), &stat);
 	sb->st_mode = getSceFileMode(stat.st_mode);
@@ -274,6 +296,7 @@ int PS4API sceKernelStat(const char *path, SceKernelStat *sb)
 		sb->st_blksize = SSD_BLOCK_SIZE;
 	}
 	return ret;
+#endif  //GPCS4_WINDOWS
 }
 
 
@@ -334,6 +357,7 @@ int PS4API sceKernelFtruncate(void)
 	return SCE_OK;
 }
 
+#ifdef GPCS4_WINDOWS
 inline uint8_t getSceFileType(dirent* ent)
 {
 	uint8_t type = SCE_KERNEL_DT_UNKNOWN;
@@ -360,6 +384,7 @@ inline uint8_t getSceFileType(dirent* ent)
 
 	return type;
 }
+#endif  //GPCS4_WINDOWS
 
 int PS4API sceKernelGetdents(int fd, char *buf, int nbytes)
 {
@@ -438,7 +463,11 @@ int PS4API sceKernelUnlink(void)
 int PS4API scek__open(const char* path, int flags, SceKernelMode mode)
 {
 	LOG_SCE_TRACE("'%s', 0x%x, 0x%x", path, flags, mode);
+#ifdef GPCS4_WINDOWS
 	int fd = _open(path, flags, mode);
+#else
+	int fd = open(path, flags, mode);
+#endif  //GPCS4_WINDOWS
 	return fd;
 }
 
@@ -460,9 +489,16 @@ ssize_t PS4API sceKernelPread(int d, void* buf, size_t nbytes, off_t offset)
 {
 	LOG_SCE_TRACE("fd %d, buf %p, nbytes %lu, offset %d", d, buf, nbytes, offset);
 	// The read/write position pointer for the file will not move
+#ifdef GPCS4_WINDOWS
 	auto off = _lseek(d, 0, SEEK_CUR);
 	_lseek(d, offset, SEEK_SET);
 	auto ret = _read(d, buf, nbytes);
 	_lseek(d, off, SEEK_SET);
+#else
+	auto off = lseek(d, 0, SEEK_CUR);
+	lseek(d, offset, SEEK_SET);
+	auto ret = read(d, buf, nbytes);
+	lseek(d, off, SEEK_SET);
+#endif  //GPCS4_WINDOWS
 	return ret;
 }

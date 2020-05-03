@@ -1,5 +1,6 @@
 #include "PsslSbReader.h"
 #include <ostream>
+#include <cstring>
 
 LOG_CHANNEL(Graphic.Pssl.PsslSbReader);
 

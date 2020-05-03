@@ -1,4 +1,6 @@
 #include "PsslProgramInfo.h"
+#include <cstring>
+#include <climits>
 
 #define SHADER_BINARY_INFO_SIG "OrbShdr"
 #define SHADER_BINARY_INFO_SEARCH_MAX (1024 * 1024 * 5)

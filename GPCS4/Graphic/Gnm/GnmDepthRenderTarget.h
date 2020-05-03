@@ -5,6 +5,7 @@
 #include "GnmRegInfo.h"
 #include "GnmStructure.h"
 #include "GpuAddress/GnmGpuAddress.h"
+#include <cstring>
 
 union DepthRenderTargetInitFlags {
 	struct

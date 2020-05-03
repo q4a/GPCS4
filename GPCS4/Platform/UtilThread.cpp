@@ -23,6 +23,7 @@ void ThreadYield()
 
 #elif defined(GPCS4_LINUX)
 
+#include <unistd.h>
 #include <sys/types.h>
 uint64_t GetThreadId(void)
 {

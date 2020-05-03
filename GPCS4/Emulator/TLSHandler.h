@@ -180,6 +180,10 @@ class TLSManagerLinux : public TLSManager
 	friend class Singleton<TLSManagerLinux>;
 
 public:
+	virtual bool install();
+
+	virtual void uninstall();
+
 private:
 	TLSManagerLinux();
 	virtual ~TLSManagerLinux();

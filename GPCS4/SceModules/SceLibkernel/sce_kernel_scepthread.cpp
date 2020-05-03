@@ -1,7 +1,5 @@
 #include "sce_libkernel.h"
-#include "sce_pthread_common.h"
 #include "sce_kernel_scepthread.h"
-#include "MapSlot.h"
 
 #include "Platform/PlatformUtils.h"
 #include "Emulator/TLSHandler.h"
@@ -9,6 +7,8 @@
 #include <utility>
 
 LOG_CHANNEL(SceModules.SceLibkernel.scepthread);
+
+#include "sce_pthread_common.h"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -391,6 +391,14 @@ int scePriorityToPthreadPriority(int oldPriority)
 		LOG_ERR("error sce thread priority %d", oldPriority);
 	}
 	return newPriority;
+}
+
+#else
+
+int scePriorityToPthreadPriority(int oldPriority)
+{
+	LOG_FIXME("Not implemented");
+	return 0;
 }
 
 #endif

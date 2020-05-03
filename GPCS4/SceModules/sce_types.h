@@ -105,3 +105,6 @@ typedef int64_t ssize_t;
 
 typedef int SceUserServiceUserId;
 
+#ifndef GPCS4_WINDOWS
+typedef int errno_t;
+#endif  //GPCS4_WINDOWS

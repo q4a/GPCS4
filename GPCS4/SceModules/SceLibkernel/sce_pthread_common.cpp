@@ -1,20 +1,31 @@
-#include "sce_pthread_common.h"
 #include "sce_libkernel.h"
 #include "Emulator/TLSHandler.h"
 
 LOG_CHANNEL(SceModules.SceLibkernel.pthreadcommon);
+
+#include "sce_pthread_common.h"
 
 MapSlot<pthread_t, isEmptyPthread, isEqualPthread> g_threadSlot(SCE_THREAD_COUNT_MAX);
 
 
 bool isEmptyPthread(const pthread_t& pt)
 {
+#ifdef GPCS4_WINDOWS
 	return pt.p == NULL && pt.x == 0;
+#else
+	LOG_FIXME("Not implemented");
+	return false;
+#endif  //GPCS4_WINDOWS
 }
 
 bool isEqualPthread(const pthread_t& lhs, const pthread_t& rhs)
 {
+#ifdef GPCS4_WINDOWS
 	return lhs.p == rhs.p && lhs.x == rhs.x;
+#else
+	LOG_FIXME("Not implemented");
+	return true;
+#endif  //GPCS4_WINDOWS
 }
 
 

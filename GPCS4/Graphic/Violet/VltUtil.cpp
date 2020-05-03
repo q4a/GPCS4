@@ -1,5 +1,6 @@
 #include "VltUtil.h"
 #include "VltFormat.h"
+#include <cstring>
 
 namespace vlt::util
 {;

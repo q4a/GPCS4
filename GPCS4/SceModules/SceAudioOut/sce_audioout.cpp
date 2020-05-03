@@ -1,6 +1,5 @@
 #include "sce_audioout.h"
 #include "AudioOut.h"
-#include "MapSlot.h"
 
 #include <memory>
 
@@ -10,6 +9,8 @@
 // You may need to modify the code manually to fit development needs
 
 LOG_CHANNEL(SceModules.SceAudioOut);
+
+#include "MapSlot.h"
 
 constexpr int MAX_AUDIO_SLOTS = 20;
 static MapSlot<std::unique_ptr<AudioOut>> g_AudioSlots {MAX_AUDIO_SLOTS};
