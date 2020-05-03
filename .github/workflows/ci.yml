@@ -21,5 +21,6 @@ jobs:
         sudo apt-get update && sudo apt-get install -y libvulkan-dev libglfw3-dev
         cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
     - name: Build
+      working-directory: bld
       run: |
         make -j$(nproc)
