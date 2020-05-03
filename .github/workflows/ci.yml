@@ -20,12 +20,6 @@ jobs:
         cmake --version
         mkdir bld && cd bld
         sudo apt-get update && sudo apt-get install -y libvulkan-dev libglfw3-dev
-        #sudo apt-get update && sudo apt-get install -y libglfw3-dev
-        #wget http://de.archive.ubuntu.com/ubuntu/pool/main/v/vulkan-loader/libvulkan1_1.2.131.2-1_amd64.deb
-        #wget http://de.archive.ubuntu.com/ubuntu/pool/main/v/vulkan-loader/libvulkan-dev_1.2.131.2-1_amd64.deb
-        #sudo dpkg -i *.deb
-        #wget -O vulkansdk.tar.gz https://sdk.lunarg.com/sdk/download/1.2.135.0/linux/vulkansdk-linux-x86_64-1.2.135.0.tar.gz?Human=true
-        #tar -xzf vulkansdk.tar.gz
         cat /usr/include/vulkan/vulkan_core.h | grep VkPhysicalDeviceDriverPropertiesKHR
         cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
     - name: Build
