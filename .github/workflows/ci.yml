@@ -20,8 +20,9 @@ jobs:
         cmake --version
         mkdir bld && cd bld
         sudo apt-get update && sudo apt-get install -y libvulkan-dev libglfw3-dev
+    - name: Test Vulkan
+      run: |
         cat /usr/include/vulkan/vulkan_core.h | grep VkPhysicalDeviceDriverPropertiesKHR
-        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
     - name: Build
       working-directory: bld
       run: |
