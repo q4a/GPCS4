@@ -17,6 +17,7 @@ jobs:
     - name: Install
       run: |
         export CC=clang-9 && export CXX=clang++-9 && $CXX --version
+        cmake --version
         mkdir bld && cd bld
         sudo apt-get update && sudo apt-get install -y libvulkan-dev libglfw3-dev
         cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
