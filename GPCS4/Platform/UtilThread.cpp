@@ -24,10 +24,14 @@ void ThreadYield()
 #elif defined(GPCS4_LINUX)
 
 #include <unistd.h>
-#include <sys/types.h>
+#include <sys/syscall.h>
 uint64_t GetThreadId(void)
 {
+#ifdef SYS_gettid
+	return syscall(SYS_gettid);
+#else
 	return gettid();
+#endif  //SYS_gettid
 }
 
 
