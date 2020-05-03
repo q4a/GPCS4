@@ -1,0 +1,25 @@
+name: Github_CI
+
+on: [push, pull_request]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-1804
+    strategy:
+      fail-fast: false
+      matrix:
+        Configuration: [Debug, Release]
+        Platform: [x64]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install
+      run: |
+        export CC=clang-9 && export CXX=clang++-9 && $CXX --version
+        mkdir bld && cd bld
+        sudo apt-get update && sudo apt-get install -y libvulkan-dev glfw3-dev
+        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
+    - name: Build
+      run: |
+        make -j$(nproc)
