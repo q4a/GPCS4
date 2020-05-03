@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build-linux:
-    runs-on: ubuntu-1804
+    runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
       matrix:
