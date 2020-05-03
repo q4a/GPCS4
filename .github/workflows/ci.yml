@@ -1,0 +1,30 @@
+name: Github_CI
+
+on: [push, pull_request]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        Configuration: [Debug, Release]
+        Platform: [x64]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install
+      run: |
+        export CC=clang-9 && export CXX=clang++-9 && $CXX --version
+        cmake --version
+        mkdir bld && cd bld
+        sudo apt-get update && sudo apt-get install -y libglfw3-dev
+        wget https://launchpadlibrarian.net/455365162/libvulkan1_1.1.126.0-2~gpu18.04.1_amd64.deb
+        wget https://launchpadlibrarian.net/455365159/libvulkan-dev_1.1.126.0-2~gpu18.04.1_amd64.deb
+        sudo dpkg -i *.deb
+        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
+    - name: Build
+      working-directory: bld
+      run: |
+        make -j$(nproc)
