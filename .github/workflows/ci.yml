@@ -19,13 +19,10 @@ jobs:
         export CC=clang-9 && export CXX=clang++-9 && $CXX --version
         cmake --version
         mkdir bld && cd bld
-        sudo apt-get update && sudo apt-get install -y libvulkan-dev libglfw3-dev
-        #sudo apt-get update && sudo apt-get install -y libglfw3-dev
+        sudo apt-get update && sudo apt-get install -y libglfw3-dev
         wget https://launchpadlibrarian.net/455365162/libvulkan1_1.1.126.0-2~gpu18.04.1_amd64.deb
         wget https://launchpadlibrarian.net/455365159/libvulkan-dev_1.1.126.0-2~gpu18.04.1_amd64.deb
         sudo dpkg -i *.deb
-        #wget -O vulkansdk.tar.gz https://sdk.lunarg.com/sdk/download/1.2.135.0/linux/vulkansdk-linux-x86_64-1.2.135.0.tar.gz?Human=true
-        #tar -xzf vulkansdk.tar.gz
         cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.Configuration }}
     - name: Build
       working-directory: bld
