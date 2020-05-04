@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 cmake_policy(VERSION 3.2)
 
-project(GPCS4 LANGUAGES CXX)
+project(GPCS4 LANGUAGES CXX C)
 
 include(${PROJECT_SOURCE_DIR}/cmake/utils.cmake)
+
+add_subdirectory(3rdParty/Zydis)
+add_subdirectory(3rdParty/rtaudio)
 
 add_definitions(-DGPCS4_DEBUG -DGPCS4_LINUX)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a")
@@ -74,6 +77,7 @@ list(APPEND DIRS_GPCS4
 add_dir("${DIRS_GPCS4}" "GPCS4")
 
 add_executable(GPCS4 ${GPCS4_SOURCE} ${GPCS4_INLINE} ${GPCS4_HEADER})
+target_link_libraries(GPCS4 rtaudio Zydis glfw vulkan pthread)
 
 include_directories(${INCLUDE_DIRECTORIES}
 	${PROJECT_SOURCE_DIR}/3rdParty

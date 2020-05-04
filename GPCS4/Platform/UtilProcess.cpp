@@ -59,6 +59,18 @@ uint64_t GetProcessTimeFrequency()
 
 #else
 
+uint64_t GetProcessTimeCounter()
+{
+	// LOG_FIXME("Not implemented");
+	return 0;
+}
+
+uint64_t GetProcessTimeFrequency()
+{
+	// LOG_FIXME("Not implemented");
+	return 0;
+}
+
 #endif  //GPCS4_WINDOWS
 
 

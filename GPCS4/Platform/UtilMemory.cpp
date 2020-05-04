@@ -238,5 +238,53 @@ int VMQueryProtection(void* addr, void** start, void** end, uint32_t* prot)
 
 //TODO: Other platform implementation 
 
+void* VMMapAligned(size_t nSize, uint32_t nProtectFlag, int align)
+{
+	LOG_FIXME("Not implemented");
+	return nullptr;
+}
+
+void* VMMapFlexible(void *addrIn, size_t nSize, uint32_t nProtectFlag)
+{
+	LOG_FIXME("Not implemented");
+	return nullptr;
+}
+
+void* VMMapDirect(size_t nSize, uint32_t nProtectFlag, uint32_t nType)
+{
+	LOG_FIXME("Not implemented");
+	return nullptr;
+}
+
+void* VMAllocateDirect()
+{
+	LOG_FIXME("Not Implemented.");
+	return nullptr;
+}
+
+void* VMMap(void* start, size_t nSize, uint32_t nProtectFlag, uint32_t flags, int fd, int64_t offset)
+{
+	LOG_FIXME("Not Implemented.");
+	return nullptr;
+}
+
+void VMUnMap(void* pAddr, size_t nSize)
+{
+	LOG_FIXME("Not Implemented.");
+}
+
+bool VMProtect(void* pAddr, size_t nSize, uint32_t nProtectFlag)
+{
+	LOG_FIXME("Not Implemented.");
+	return true;
+}
+
+int VMQueryProtection(void* addr, void** start, void** end, uint32_t* prot)
+{
+	LOG_FIXME("Not Implemented.");
+	int bRet = SCE_ERROR_UNKNOWN;
+	return bRet;
+}
+
 #endif  //GPCS4_WINDOWS
 }

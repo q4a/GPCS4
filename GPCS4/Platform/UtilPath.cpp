@@ -70,9 +70,19 @@ size_t FileCountInDirectory(const std::string &path)
 	return counter;
 }
 
-bool splitFileName(std::string const &fileName,
-				   std::string *name,
-				   std::string *extension)
+#else
+
+std::string PS4PathToPCPath(const std::string& strPs4Path)
+{
+	LOG_FIXME("Not implemented");
+	return strPs4Path;
+}
+
+#endif // GPCS4_WINDOWS
+
+bool splitFileName(std::string const& fileName,
+				   std::string*       name,
+				   std::string*       extension)
 {
 	bool retval = false;
 	do
@@ -95,7 +105,7 @@ bool splitFileName(std::string const &fileName,
 		}
 		else
 		{
-			*name = fileName.substr(0, pos);
+			*name      = fileName.substr(0, pos);
 			*extension = fileName.substr(pos + 1);
 		}
 
@@ -104,9 +114,5 @@ bool splitFileName(std::string const &fileName,
 
 	return retval;
 }
-
-#else
-
-#endif // GPCS4_WINDOWS
 
 } // namespace UtilPath

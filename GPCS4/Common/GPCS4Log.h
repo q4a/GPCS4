@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GPCS4Common.h"
+#include "Platform/UtilDebug.h"
 
 #include <string>
 #include <vector>
@@ -8,11 +9,6 @@
 #ifndef GPCS4_WINDOWS
 #define vsprintf_s vsnprintf
 #define sprintf_s  snprintf
-
-void __debugbreak()
-{
-	::abort();
-}
 #endif  //GPCS4_WINDOWS
 
 namespace cxxopts
@@ -120,7 +116,7 @@ private:
 #define LOG_PSSL_UNHANDLED_INST()                      \
 	{                                                  \
 		LOG_FIXME("PSSL Instruction not translated."); \
-		__debugbreak();                                \
+		UtilDebug::debugBreakPoint();                  \
 	}
 
 #else

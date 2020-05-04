@@ -166,7 +166,7 @@ void Channel::assert_(const char* szExpression, const char* szFunction, const ch
 	showMessageBox("Assertion Fail", szMsgBoxStr);
 
 #ifdef GPCS4_DEBUG
-	::__debugbreak();
+	UtilDebug::debugBreakPoint();
 #else
 	exit(-1);
 #endif  // !GPCS4_DEBUG

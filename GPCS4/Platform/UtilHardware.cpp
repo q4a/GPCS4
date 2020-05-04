@@ -29,6 +29,11 @@ uint64_t GetTscFrequency()
 
 #else
 
+uint64_t GetTscFrequency()
+{
+	// LOG_FIXME("Not implemented");
+	return 0;
+}
 
 #endif  //GPCS4_WINDOWS
 

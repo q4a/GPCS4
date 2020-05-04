@@ -499,6 +499,15 @@ TLSManagerLinux::~TLSManagerLinux()
 {
 }
 
+bool TLSManagerLinux::install()
+{
+	return true;
+}
+
+void TLSManagerLinux::uninstall()
+{
+}
+
 #endif  // GPCS4_WINDOWS
 
 
