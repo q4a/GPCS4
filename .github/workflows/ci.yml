@@ -19,7 +19,7 @@ jobs:
         export CC=clang-9 && export CXX=clang++-9 && $CXX --version
         cmake --version
         mkdir bld && cd bld
-        sudo apt-get update && sudo apt-get install -y libglfw3-dev libpulse-dev
+        sudo apt-get update && sudo apt-get install -y libglfw3-dev libpulse-dev libasound2-dev
         wget https://launchpadlibrarian.net/455365162/libvulkan1_1.1.126.0-2~gpu18.04.1_amd64.deb
         wget https://launchpadlibrarian.net/455365159/libvulkan-dev_1.1.126.0-2~gpu18.04.1_amd64.deb
         sudo dpkg -i *.deb
