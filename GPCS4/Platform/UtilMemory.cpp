@@ -9,19 +9,6 @@ LOG_CHANNEL(Platform.UtilMemory);
 namespace UtilMemory
 {;
 
-#ifdef GPCS4_WINDOWS
-
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#undef WIN32_LEAN_AND_MEAN
-
-// Note:
-// Direct memory address is supposed to be within 0x000000FFFFFFFFFF
-#define DIRECT_MEMORY_HIGH 0x000000FFFFFFFFFFull
-// TODO:
-// Access to this should be thread safe
-static uintptr_t g_baseDirectMemory = 0x400000;
-
 struct MemoryRange 
 {
 	uintptr_t start;
@@ -43,6 +30,19 @@ inline std::vector<MemoryRange>::iterator findMemoryRange(void* addr)
 		});
 	return iter;
 }
+
+#ifdef GPCS4_WINDOWS
+
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#undef WIN32_LEAN_AND_MEAN
+
+// Note:
+// Direct memory address is supposed to be within 0x000000FFFFFFFFFF
+#define DIRECT_MEMORY_HIGH 0x000000FFFFFFFFFFull
+// TODO:
+// Access to this should be thread safe
+static uintptr_t g_baseDirectMemory = 0x400000;
 
 inline uint32_t GetProtectFlag(uint32_t nOldFlag)
 {
@@ -240,14 +240,33 @@ int VMQueryProtection(void* addr, void** start, void** end, uint32_t* prot)
 
 void* VMMapAligned(size_t nSize, uint32_t nProtectFlag, int align)
 {
-	LOG_FIXME("Not implemented");
-	return nullptr;
+#ifdef GPCS4_DEBUG
+	const uint32_t debugAlign = 0x10000000;
+	align                     = debugAlign;
+#endif
+
+	void* pAlignedAddr = nullptr;
+	posix_memalign(&pAlignedAddr, align, nSize);
+
+	return pAlignedAddr;
 }
 
 void* VMMapFlexible(void *addrIn, size_t nSize, uint32_t nProtectFlag)
 {
-	LOG_FIXME("Not implemented");
-	return nullptr;
+	void* pAddr = nullptr;
+	do
+	{
+		posix_memalign(&pAddr, sizeof(void*), nSize);
+
+		MemoryRange range{
+			reinterpret_cast<uintptr_t>(pAddr),
+			reinterpret_cast<uintptr_t>(pAddr) + nSize,
+			nProtectFlag
+		};
+
+		g_memRanges.emplace_back(range);
+	} while (false);
+	return pAddr;
 }
 
 void* VMMapDirect(size_t nSize, uint32_t nProtectFlag, uint32_t nType)
